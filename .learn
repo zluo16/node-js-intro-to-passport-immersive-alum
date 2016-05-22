@@ -1,0 +1,15 @@
+tags:
+  - readme
+  - node
+languages:
+  - node
+  - javascript
+resources: 0
+track:
+  - web development
+topic:
+  - node
+unit:
+  - Building a Database-Backed Application
+lesson:
+  - Introduction to Passport
