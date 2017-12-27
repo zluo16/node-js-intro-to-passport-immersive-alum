@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const knex = require('knex');
 const handlebars = require('express-handlebars');
+const passport = require('passport')
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
@@ -12,6 +16,10 @@ const db = knex(config[ENV]);
 // Initialize Express.
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({ secret: 'secret' }))
+app.use(cookieParser())
+app.use(flash())
 app.use(passport.initialize());
 
 // Configure handlebars templates.
