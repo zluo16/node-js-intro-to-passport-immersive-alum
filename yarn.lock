@@ -605,8 +605,8 @@ generic-pool@2.4.2:
   resolved "https://registry.yarnpkg.com/generic-pool/-/generic-pool-2.4.2.tgz#886bc5bf0beb7db96e81bcbba078818de5a62683"
 
 generic-pool@^3.1.7:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/generic-pool/-/generic-pool-3.2.0.tgz#c1d485ecbd6f18c0513d4741d098a6715eaeeca8"
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/generic-pool/-/generic-pool-3.4.0.tgz#6b76fc201bb49a0ff381450f585352378fb1c08f"
 
 get-stdin@^4.0.1:
   version "4.0.1"

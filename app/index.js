@@ -8,9 +8,10 @@ const passport = require('passport')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
+const LocalStrategy = require('passport-local').Strategy
 
-const ENV = process.env.NODE_ENV || 'development';
 const config = require('../knexfile');
+const ENV = process.env.NODE_ENV || 'development';
 const db = knex(config[ENV]);
 
 // Initialize Express.
@@ -39,9 +40,26 @@ const Comment = require('./models/comment');
 const Post = require('./models/post');
 const User = require('./models/user');
 
+// ***** Passport Validation ***** //
 
-
-
+passport.use(new LocalStrategy((username, password, done) => {
+  User.forge({ username: username })
+      .fetch()
+      .then((usr) => {
+        if (usr) {
+          return done(null, false);
+        }
+        usr.validatePassword(password).then(valid => {
+          if (!valid) {
+            return done(null, false);
+          }
+          return done(null, usr);
+        });
+      })
+      .catch(err => {
+        return done(err);
+      });
+}));
 
 // ***** Server ***** //
 
@@ -58,6 +76,13 @@ app.get('/user/:id', (req,res) => {
       console.error(error);
       return res.sendStatus(500);
     });
+});
+
+app.get('/users', (req, res) => {
+  User.fetchAll()
+      .then(users => {
+        res.send(users)
+      });
 });
 
 app.post('/user', (req, res) => {
@@ -141,7 +166,7 @@ const listen = (port) => {
 };
 
 exports.up = (justBackend) => {
-  return db.migrate.latest([ENV])
+  return db.migrate.latest(ENV)
     .then(() => {
       return db.migrate.currentVersion();
     })
